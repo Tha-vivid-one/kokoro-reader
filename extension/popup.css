@@ -1,0 +1,71 @@
+body {
+  width: 280px;
+  padding: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  font-size: 13px;
+  background: #111;
+  color: #ddd;
+  margin: 0;
+}
+
+.header {
+  font-size: 15px;
+  font-weight: 600;
+  color: #8b8bcd;
+  margin-bottom: 14px;
+}
+
+label {
+  display: block;
+  margin: 10px 0 4px;
+  color: #999;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+input[type="text"],
+input[type="password"],
+select {
+  width: 100%;
+  padding: 8px 10px;
+  border: 1px solid #333;
+  border-radius: 6px;
+  background: #1a1a1a;
+  color: #ddd;
+  font-size: 13px;
+  box-sizing: border-box;
+}
+
+input[type="range"] {
+  width: 100%;
+  margin: 4px 0;
+}
+
+button {
+  width: 100%;
+  padding: 8px;
+  margin-top: 14px;
+  background: #8b8bcd;
+  color: #111;
+  border: none;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button:hover {
+  background: #a0a0e0;
+}
+
+#status {
+  margin-top: 8px;
+  font-size: 11px;
+  color: #6b6;
+  min-height: 14px;
+}
+
+#status.error {
+  color: #f66;
+}
