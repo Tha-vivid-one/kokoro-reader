@@ -21,6 +21,7 @@
 		A10000012 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A20000012; };
 		A10000013 /* FloatingToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000013; };
 		A10000014 /* FloatingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000014; };
+		A10000015 /* KokoroTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000015; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		A20000012 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Resources/Assets.xcassets; sourceTree = "<group>"; };
 		A20000013 /* FloatingToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingToolbarView.swift; sourceTree = "<group>"; };
 		A20000014 /* FloatingWindowController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingWindowController.swift; sourceTree = "<group>"; };
+		A20000015 /* KokoroTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KokoroTheme.swift; sourceTree = "<group>"; };
 		A30000001 /* KokoroReader.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = KokoroReader.app; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -83,6 +85,7 @@
 				A20000009 /* PlayerView.swift */,
 				A20000010 /* SettingsView.swift */,
 			A20000013 /* FloatingToolbarView.swift */,
+			A20000015 /* KokoroTheme.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -173,6 +176,7 @@
 				A10000011,
 			A10000013,
 			A10000014,
+			A10000015,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

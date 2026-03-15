@@ -7,8 +7,8 @@ struct PlayerView: View {
         VStack(spacing: 8) {
             if !player.textPreview.isEmpty {
                 Text(player.textPreview)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(.system(size: 12))
+                    .foregroundStyle(KokoroTheme.textSecondary)
                     .lineLimit(2)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
@@ -17,9 +17,9 @@ struct PlayerView: View {
             GeometryReader { geo in
                 ZStack(alignment: .leading) {
                     RoundedRectangle(cornerRadius: 2)
-                        .fill(.quaternary)
+                        .fill(KokoroTheme.bgElevated)
                     RoundedRectangle(cornerRadius: 2)
-                        .fill(.tint)
+                        .fill(KokoroTheme.progressGradient)
                         .frame(width: geo.size.width * player.progress)
                 }
                 .frame(height: 4)
@@ -40,44 +40,52 @@ struct PlayerView: View {
                 Spacer()
                 Text(formatTime(player.duration))
             }
-            .font(.caption2)
-            .foregroundStyle(.secondary)
-            .monospacedDigit()
+            .font(.system(size: 10, design: .monospaced))
+            .foregroundStyle(KokoroTheme.textMuted)
 
             // Transport controls
-            HStack(spacing: 16) {
-                Button { player.skipBackward() } label: {
-                    Image(systemName: "backward.fill")
-                        .font(.title3)
-                }
-                .buttonStyle(.plain)
+            HStack(spacing: 12) {
+                transportButton("backward.fill", size: 13) { player.skipBackward() }
+                    .disabled(player.state == .idle)
+
+                transportButton(
+                    player.state == .playing ? "pause.fill" : "play.fill",
+                    size: 16,
+                    isPrimary: true
+                ) { player.togglePlayPause() }
                 .disabled(player.state == .idle)
 
-                Button { player.togglePlayPause() } label: {
-                    Image(systemName: player.state == .playing ? "pause.fill" : "play.fill")
-                        .font(.title2)
-                }
-                .buttonStyle(.plain)
-                .disabled(player.state == .idle)
-
-                Button { player.skipForward() } label: {
-                    Image(systemName: "forward.fill")
-                        .font(.title3)
-                }
-                .buttonStyle(.plain)
-                .disabled(player.state == .idle)
+                transportButton("forward.fill", size: 13) { player.skipForward() }
+                    .disabled(player.state == .idle)
 
                 Spacer()
 
-                Button { player.stop() } label: {
-                    Image(systemName: "stop.fill")
-                        .font(.title3)
-                }
-                .buttonStyle(.plain)
-                .disabled(player.state == .idle)
+                transportButton("stop.fill", size: 13) { player.stop() }
+                    .disabled(player.state == .idle)
             }
         }
         .padding(.horizontal, 4)
+    }
+
+    private func transportButton(
+        _ symbol: String,
+        size: CGFloat,
+        isPrimary: Bool = false,
+        action: @escaping () -> Void
+    ) -> some View {
+        Button(action: action) {
+            Image(systemName: symbol)
+                .font(.system(size: size))
+                .foregroundStyle(KokoroTheme.textPrimary)
+                .frame(width: isPrimary ? 32 : 26, height: isPrimary ? 32 : 26)
+                .background(
+                    isPrimary
+                        ? AnyShapeStyle(KokoroTheme.accent.opacity(0.15))
+                        : AnyShapeStyle(.clear)
+                )
+                .clipShape(RoundedRectangle(cornerRadius: 6))
+        }
+        .buttonStyle(.plain)
     }
 
     private func formatTime(_ time: TimeInterval) -> String {

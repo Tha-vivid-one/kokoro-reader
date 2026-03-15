@@ -5,7 +5,10 @@
   <link rel="stylesheet" href="popup.css">
 </head>
 <body>
-  <div class="header">Kokoro Reader</div>
+  <div class="header">
+    <span class="header-brand">Kokoro Reader</span>
+    <span class="header-version">v1.1</span>
+  </div>
 
   <div id="serverStatus" class="server-status">
     <span id="statusDot" class="dot"></span>
@@ -13,24 +16,37 @@
     <button id="serverToggle" class="server-btn" disabled>—</button>
   </div>
 
-  <label for="serverUrl">Server URL</label>
-  <input type="text" id="serverUrl" placeholder="http://localhost:8787">
+  <div class="form-content">
+    <div class="field">
+      <label for="serverUrl">Server URL</label>
+      <input type="text" id="serverUrl" placeholder="http://localhost:8787">
+    </div>
 
-  <label for="voice">Voice</label>
-  <select id="voice">
-    <option value="af_heart">af_heart</option>
-  </select>
+    <div class="field-row">
+      <div class="field">
+        <label for="voice">Voice</label>
+        <select id="voice">
+          <option value="af_heart">af_heart</option>
+        </select>
+      </div>
+    </div>
 
-  <label for="speed">Speed: <span id="speedVal">1.0</span>x</label>
-  <input type="range" id="speed" min="0.5" max="2.0" step="0.1" value="1.0">
+    <div class="field">
+      <label for="speed">Speed</label>
+      <div class="range-wrap">
+        <input type="range" id="speed" min="0.5" max="2.0" step="0.1" value="1.0">
+        <span class="range-value" id="speedVal">1.0x</span>
+      </div>
+    </div>
 
-  <div class="toggle-row">
-    <label class="toggle-label" for="launchAtLogin">Start server on login</label>
-    <input type="checkbox" id="launchAtLogin">
+    <div class="toggle-row">
+      <span class="toggle-label">Start server on login</span>
+      <input type="checkbox" id="launchAtLogin">
+    </div>
+
+    <div id="status"></div>
+    <button id="save">Save</button>
   </div>
-
-  <div id="status"></div>
-  <button id="save">Save</button>
 
   <script src="popup.js"></script>
 </body>
