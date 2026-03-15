@@ -1,8 +1,8 @@
 # Kokoro Reader
 
-A Chrome extension + self-hosted TTS server. Select text on any webpage, right-click **"Read aloud with Kokoro"**, and hear it spoken back using the [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) model.
+A Chrome extension + macOS menu bar app + self-hosted TTS server. Select text anywhere, right-click in Chrome or press `⌘⇧R` system-wide, and hear it spoken back using the [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M) model.
 
-Fully open source — run the server anywhere, use the extension in Chrome.
+Fully open source — run the server anywhere, use the extension in Chrome, or the native app on macOS.
 
 ## Quick Start
 
@@ -77,6 +77,48 @@ curl -X POST http://localhost:8787/api/tts \
 28 voices available across American English (af_/am_) and British English (bf_/bm_):
 
 `af_heart`, `af_alloy`, `af_aoede`, `af_bella`, `af_jessica`, `af_kore`, `af_nicole`, `af_nova`, `af_river`, `af_sarah`, `af_sky`, `am_adam`, `am_echo`, `am_eric`, `am_liam`, `am_michael`, `am_onyx`, `am_puck`, `am_santa`, `bf_alice`, `bf_emma`, `bf_isabella`, `bf_lily`, `bm_daniel`, `bm_fable`, `bm_george`, `bm_lewis`
+
+## macOS Menu Bar App
+
+A native Swift menu bar app that works system-wide — no browser required.
+
+### Setup
+
+1. Open `app/KokoroReader.xcodeproj` in Xcode
+2. Build & Run (⌘R)
+3. A speaker icon appears in the menu bar
+4. Click it → configure server URL and API key in Settings
+
+### Features
+
+- **Global shortcuts** — works in any app, no browser needed
+- **Text capture** — reads selected text via Accessibility API, falls back to clipboard
+- **Playback controls** — play/pause/stop/skip with configurable skip interval
+- **Queue playback** — long text is chunked and played sequentially
+
+### Keyboard Shortcuts
+
+| Shortcut | Action |
+|----------|--------|
+| `⌘⇧R` | Read selected text (or clipboard) |
+| `⌘⇧P` | Play / Pause |
+| `⌘⇧S` | Stop |
+| `⌘⇧→` | Skip forward |
+| `⌘⇧←` | Skip backward |
+
+### Requirements
+
+- macOS 14.0+
+- Xcode 15+
+- Accessibility permission (prompted on first use)
+- Kokoro TTS server running
+
+### Menu Bar App Settings
+
+- **Server URL / API Key** — same as the Chrome extension
+- **Voice / Speed** — select from available voices, 0.5x–2.0x
+- **Skip interval** — 5–60 seconds (default 10s)
+- **Launch at login** — start automatically
 
 ## Running without Docker
 
