@@ -7,6 +7,8 @@ import warnings
 import numpy as np
 import soundfile as sf
 
+from normalizer import normalize
+
 warnings.filterwarnings("ignore")
 
 SAMPLE_RATE = 24000
@@ -36,6 +38,8 @@ class KokoroEngine:
         """Generate WAV audio bytes from text. Thread-safe."""
         if self._pipeline is None:
             raise RuntimeError("Engine not loaded. Call load() first.")
+
+        text = normalize(text)
 
         with self._lock:
             generator = self._pipeline(text, voice=voice, speed=speed)
