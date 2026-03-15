@@ -91,14 +91,14 @@ $("serverToggle").addEventListener("click", () => {
 chrome.storage.sync.get(defaults, (settings) => {
   $("serverUrl").value = settings.serverUrl;
   $("speed").value = settings.speed;
-  $("speedVal").textContent = settings.speed;
+  $("speedVal").textContent = parseFloat(settings.speed).toFixed(1) + "x";
   $("launchAtLogin").checked = settings.launchAtLogin;
 
   fetchVoices(settings.serverUrl, settings.apiKey, settings.voice);
 });
 
 $("speed").addEventListener("input", (e) => {
-  $("speedVal").textContent = e.target.value;
+  $("speedVal").textContent = parseFloat(e.target.value).toFixed(1) + "x";
 });
 
 $("save").addEventListener("click", () => {
