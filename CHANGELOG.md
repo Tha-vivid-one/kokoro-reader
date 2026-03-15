@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.2.0] - 2026-03-14
+
+### Added
+- Unified design system (KokoroTheme) across macOS app and Chrome extension
+- Dark OLED palette: #0a0a14 base, #8b8bcd indigo accent, gradient progress bars
+- Branded header with "KOKORO READER" identity
+- Custom toggle switches and styled range sliders in extension popup
+- Hover states on action buttons in menu bar
+- Themed shortcut badges and section headers in settings
+
+### Changed
+- Complete redesign of Chrome extension popup to match content toolbar aesthetic
+- PlayerView, MenuBarView, SettingsView, FloatingToolbarView all use shared theme tokens
+- Consistent typography: monospaced digits, uppercase section labels, system font hierarchy
+
 ## [1.1.0] - 2026-03-14
 
 ### Added
