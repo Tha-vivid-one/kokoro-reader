@@ -18,9 +18,6 @@ struct SettingsView: View {
                     TextField("Server URL", text: $settings.serverURL)
                         .textFieldStyle(.roundedBorder)
 
-                    SecureField("API Key", text: $settings.apiKey)
-                        .textFieldStyle(.roundedBorder)
-
                     HStack {
                         Button("Test Connection") { testConnection() }
                             .disabled(isTestingConnection)

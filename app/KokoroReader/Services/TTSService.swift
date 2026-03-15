@@ -90,10 +90,7 @@ final class TTSService {
     }
 
     private func addAuth(_ request: inout URLRequest) {
-        let key = settings.apiKey
-        if !key.isEmpty {
-            request.setValue(key, forHTTPHeaderField: "X-API-Key")
-        }
+        // No auth needed for local server
     }
 
     private func splitIntoParagraphs(_ text: String) -> [String] {

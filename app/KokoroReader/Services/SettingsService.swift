@@ -7,9 +7,6 @@ final class SettingsService {
     var serverURL: String {
         didSet { UserDefaults.standard.set(serverURL, forKey: "serverURL") }
     }
-    var apiKey: String {
-        didSet { UserDefaults.standard.set(apiKey, forKey: "apiKey") }
-    }
     var voice: String {
         didSet { UserDefaults.standard.set(voice, forKey: "voice") }
     }
@@ -46,7 +43,6 @@ final class SettingsService {
     private init() {
         let defaults = UserDefaults.standard
         self.serverURL = defaults.string(forKey: "serverURL") ?? "http://localhost:8787"
-        self.apiKey = defaults.string(forKey: "apiKey") ?? ""
         self.voice = defaults.string(forKey: "voice") ?? "af_heart"
         self.speed = defaults.double(forKey: "speed").nonZero ?? 1.0
         self.skipInterval = defaults.double(forKey: "skipInterval").nonZero ?? 10.0

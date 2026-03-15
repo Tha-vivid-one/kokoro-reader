@@ -5,6 +5,8 @@ struct MenuBarView: View {
     let settings: SettingsService
     let onReadSelection: () -> Void
     let onReadClipboard: () -> Void
+    let onToggleToolbar: () -> Void
+    let isToolbarVisible: Bool
 
     @State private var showSettings = false
 
@@ -71,6 +73,20 @@ struct MenuBarView: View {
                         Image(systemName: "gear")
                     }
                     .buttonStyle(.plain)
+
+                    Spacer()
+
+                    Button {
+                        onToggleToolbar()
+                    } label: {
+                        Label(
+                            isToolbarVisible ? "Hide Toolbar" : "Show Toolbar",
+                            systemImage: isToolbarVisible ? "rectangle.on.rectangle.slash" : "rectangle.on.rectangle"
+                        )
+                        .font(.caption)
+                    }
+                    .buttonStyle(.plain)
+                    .foregroundStyle(.secondary)
 
                     Spacer()
 

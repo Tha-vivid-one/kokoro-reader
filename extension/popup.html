@@ -7,11 +7,14 @@
 <body>
   <div class="header">Kokoro Reader</div>
 
+  <div id="serverStatus" class="server-status">
+    <span id="statusDot" class="dot"></span>
+    <span id="statusText">Checking...</span>
+    <button id="serverToggle" class="server-btn" disabled>—</button>
+  </div>
+
   <label for="serverUrl">Server URL</label>
   <input type="text" id="serverUrl" placeholder="http://localhost:8787">
-
-  <label for="apiKey">API Key</label>
-  <input type="password" id="apiKey" placeholder="Optional">
 
   <label for="voice">Voice</label>
   <select id="voice">
@@ -20,6 +23,11 @@
 
   <label for="speed">Speed: <span id="speedVal">1.0</span>x</label>
   <input type="range" id="speed" min="0.5" max="2.0" step="0.1" value="1.0">
+
+  <div class="toggle-row">
+    <label class="toggle-label" for="launchAtLogin">Start server on login</label>
+    <input type="checkbox" id="launchAtLogin">
+  </div>
 
   <div id="status"></div>
   <button id="save">Save</button>

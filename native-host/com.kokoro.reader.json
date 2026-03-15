@@ -1,0 +1,9 @@
+{
+  "name": "com.kokoro.reader",
+  "description": "Kokoro Reader TTS Server Manager",
+  "path": "/Users/jarretttruett/Documents/01 Projects/Tools/Kokoro-Reader/native-host/kokoro_host.py",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://EXTENSION_ID_PLACEHOLDER/"
+  ]
+}

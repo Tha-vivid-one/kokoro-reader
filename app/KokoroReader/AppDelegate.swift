@@ -6,6 +6,17 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private let ttsService = TTSService.shared
     private let textCapture = TextCaptureService.shared
 
+    private(set) lazy var floatingWindow = FloatingWindowController(
+        player: player,
+        settings: SettingsService.shared
+    )
+
+    var isToolbarVisible: Bool { floatingWindow.isVisible }
+
+    func toggleToolbar() {
+        floatingWindow.toggle()
+    }
+
     func applicationDidFinishLaunching(_ notification: Notification) {
         setupHotkeys()
         hotkeyService.start()

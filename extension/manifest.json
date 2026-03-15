@@ -3,7 +3,7 @@
   "name": "Kokoro Reader",
   "version": "1.0.0",
   "description": "Read selected text aloud using Kokoro TTS",
-  "permissions": ["contextMenus", "activeTab", "storage"],
+  "permissions": ["contextMenus", "activeTab", "storage", "nativeMessaging"],
   "background": {
     "service_worker": "background.js"
   },

@@ -16,17 +16,17 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
 
   const settings = await chrome.storage.sync.get({
     serverUrl: "http://localhost:8787",
-    apiKey: "",
     voice: "af_heart",
     speed: 1.0,
   });
 
   try {
+    chrome.tabs.sendMessage(tab.id, { type: "kokoro-loading" });
+
     const response = await fetch(`${settings.serverUrl}/api/tts`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        ...(settings.apiKey && { "X-API-Key": settings.apiKey }),
       },
       body: JSON.stringify({
         text: text.slice(0, 5000),
@@ -40,13 +40,18 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
       throw new Error(err.detail || "TTS request failed");
     }
 
-    const blob = await response.blob();
-    const audioUrl = URL.createObjectURL(blob);
+    const buffer = await response.arrayBuffer();
+    const bytes = new Uint8Array(buffer);
+    let binary = "";
+    for (let i = 0; i < bytes.length; i += 8192) {
+      binary += String.fromCharCode(...bytes.subarray(i, i + 8192));
+    }
+    const audioUrl = `data:audio/wav;base64,${btoa(binary)}`;
 
-    // Send audio to content script for playback
     chrome.tabs.sendMessage(tab.id, {
       type: "kokoro-play",
       audioUrl,
+      previewText: text.slice(0, 120),
     });
   } catch (err) {
     chrome.tabs.sendMessage(tab.id, {
@@ -56,9 +61,3 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   }
 });
 
-// Listen for offscreen audio requests (service workers can't play audio directly)
-chrome.runtime.onMessage.addListener((msg) => {
-  if (msg.type === "kokoro-cleanup") {
-    if (msg.audioUrl) URL.revokeObjectURL(msg.audioUrl);
-  }
-});

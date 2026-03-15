@@ -15,6 +15,67 @@ body {
   margin-bottom: 14px;
 }
 
+.server-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 10px;
+  background: #1a1a1a;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #555;
+  flex-shrink: 0;
+}
+
+.dot.running {
+  background: #4c4;
+}
+
+.dot.stopped {
+  background: #c44;
+}
+
+.dot.checking {
+  background: #ca4;
+}
+
+#statusText {
+  flex: 1;
+  font-size: 12px;
+}
+
+.server-btn {
+  width: auto !important;
+  padding: 4px 10px !important;
+  margin: 0 !important;
+  font-size: 11px !important;
+  border-radius: 4px !important;
+}
+
+.server-btn.start {
+  background: #4a7c4a !important;
+  color: #ddd !important;
+}
+
+.server-btn.start:hover {
+  background: #5a9c5a !important;
+}
+
+.server-btn.stop {
+  background: #7c4a4a !important;
+  color: #ddd !important;
+}
+
+.server-btn.stop:hover {
+  background: #9c5a5a !important;
+}
+
 label {
   display: block;
   margin: 10px 0 4px;
@@ -42,6 +103,26 @@ input[type="range"] {
   margin: 4px 0;
 }
 
+.toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 12px;
+}
+
+.toggle-label {
+  margin: 0;
+  text-transform: none;
+  font-size: 13px;
+  color: #ddd;
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+  accent-color: #8b8bcd;
+}
+
 button {
   width: 100%;
   padding: 8px;
@@ -57,6 +138,11 @@ button {
 
 button:hover {
   background: #a0a0e0;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: default;
 }
 
 #status {
