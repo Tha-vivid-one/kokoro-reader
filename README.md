@@ -91,6 +91,7 @@ A native Swift menu bar app that works system-wide — no browser required.
 
 ### Features
 
+- **Floating toolbar** — always-on-top player bar with transport controls, progress bar, voice/speed selectors. Toggle from the menu bar.
 - **Global shortcuts** — works in any app, no browser needed
 - **Text capture** — reads selected text via Accessibility API, falls back to clipboard
 - **Playback controls** — play/pause/stop/skip with configurable skip interval
