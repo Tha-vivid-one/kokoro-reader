@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.3.0] - 2026-03-16
+
+### Added
+- Text normalizer — numbers, currency, percentages, ordinals, and abbreviations converted to spoken form before synthesis
+- Persistent server via launchd — auto-starts on login, auto-restarts on crash
+- Server management commands documented (start, stop, restart, logs, remove)
+
+### Fixed
+- Extension popup no longer shows "Install native host" when native host is unavailable — just shows server status via HTTP
+- Background script auto-injects content script on pages that were open before extension loaded
+- Service worker message errors handled gracefully
+
+### Changed
+- Extension popup hides Start/Stop button when native host isn't connected (can't control server without it)
+
 ## [1.2.0] - 2026-03-14
 
 ### Added
