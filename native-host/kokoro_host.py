@@ -123,7 +123,9 @@ def enable_launch_at_login():
     <key>RunAtLoad</key>
     <true/>
     <key>KeepAlive</key>
-    <false/>
+    <true/>
+    <key>ThrottleInterval</key>
+    <integer>10</integer>
     <key>StandardOutPath</key>
     <string>/tmp/kokoro-server.log</string>
     <key>StandardErrorPath</key>

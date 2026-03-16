@@ -17,12 +17,14 @@ function connectNative() {
     nativePort.onMessage.addListener(handleNativeMessage);
     nativePort.onDisconnect.addListener(() => {
       nativePort = null;
-      // Native host not installed — fall back to HTTP-only status check
+      // Native host unavailable — hide start/stop, just show status
+      $("serverToggle").style.display = "none";
       checkServerHTTP();
     });
     // Check status
     nativePort.postMessage({ action: "status" });
   } catch {
+    $("serverToggle").style.display = "none";
     checkServerHTTP();
   }
 }
@@ -80,10 +82,11 @@ $("serverToggle").addEventListener("click", () => {
   if (nativePort) {
     nativePort.postMessage({ action: serverRunning ? "stop" : "start" });
   } else {
-    // No native host — can't start/stop
-    $("statusText").textContent = "Install native host to manage server";
-    btn.disabled = false;
-    dot.className = "dot stopped";
+    // No native host — just re-check HTTP status
+    $("statusText").textContent = "Checking...";
+    checkServerHTTP().then(() => {
+      btn.disabled = false;
+    });
   }
 });
 

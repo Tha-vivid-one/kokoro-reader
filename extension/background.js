@@ -21,13 +21,23 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
   });
 
   try {
-    chrome.tabs.sendMessage(tab.id, { type: "kokoro-loading" });
+    // Notify content script we're loading
+    chrome.tabs.sendMessage(tab.id, { type: "kokoro-loading" }).catch(() => {
+      // Content script not injected — inject it first
+      chrome.scripting.executeScript({
+        target: { tabId: tab.id },
+        files: ["content.js"],
+      });
+      // Retry after injection
+      setTimeout(() => {
+        chrome.tabs.sendMessage(tab.id, { type: "kokoro-loading" }).catch(() => {});
+      }, 200);
+    });
 
+    // TTS request — no timeout so long text can process
     const response = await fetch(`${settings.serverUrl}/api/tts`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         text: text.slice(0, 5000),
         voice: settings.voice,
@@ -57,7 +67,6 @@ chrome.contextMenus.onClicked.addListener(async (info, tab) => {
     chrome.tabs.sendMessage(tab.id, {
       type: "kokoro-error",
       message: err.message,
-    });
+    }).catch(() => {});
   }
 });
-
