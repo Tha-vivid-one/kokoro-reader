@@ -1,0 +1,17 @@
+{
+  "description": "Kokoro Reader: read selection aloud (⌥⌘S) — real ⌘C, no osascript",
+  "manipulators": [
+    {
+      "type": "basic",
+      "from": {
+        "key_code": "s",
+        "modifiers": { "mandatory": ["option", "command"], "optional": ["any"] }
+      },
+      "to": [
+        { "shell_command": "/usr/bin/pbpaste > /tmp/kokoro-clip.bak 2>/dev/null" },
+        { "key_code": "c", "modifiers": ["left_command"] },
+        { "shell_command": "sleep 0.25; /usr/bin/pbpaste | /Users/YOUR_USERNAME/Models/kokoro/read-selection.sh; sleep 0.1; /bin/cat /tmp/kokoro-clip.bak 2>/dev/null | /usr/bin/pbcopy" }
+      ]
+    }
+  ]
+}

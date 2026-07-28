@@ -4,6 +4,8 @@ A Chrome extension + macOS menu bar app + self-hosted TTS server. Select text an
 
 Fully open source — run the server anywhere, use the extension in Chrome, or the native app on macOS.
 
+> **Just want a system-wide hotkey on macOS, no server or browser?** See [`macos-hotkey/`](macos-hotkey/) — a serverless reader that speaks your selection in *any* app (including VS Code / Slack / Electron) via a warm local daemon + Karabiner. Press `⌥⌘S`.
+
 ## Quick Start
 
 ### 1. Start the server

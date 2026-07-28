@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.kokoro.kokoro-reader-warmup</string>
+
+	<!-- Warms the Kokoro daemon at login so the first read isn't a cold-start wait.
+	     launchd does NOT expand ~ or $HOME — replace /Users/YOUR_USERNAME below. -->
+	<key>ProgramArguments</key>
+	<array>
+		<string>/Users/YOUR_USERNAME/Models/kokoro/warm.sh</string>
+	</array>
+
+	<key>RunAtLoad</key>
+	<true/>
+
+	<!-- warm.sh launches the daemon then exits; without this, launchd reaps the
+	     daemon as an orphaned child. Keep it. -->
+	<key>AbandonProcessGroup</key>
+	<true/>
+
+	<key>StandardOutPath</key>
+	<string>/Users/YOUR_USERNAME/Models/kokoro/warmup.log</string>
+	<key>StandardErrorPath</key>
+	<string>/Users/YOUR_USERNAME/Models/kokoro/warmup.log</string>
+</dict>
+</plist>

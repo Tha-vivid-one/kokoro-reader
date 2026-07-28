@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.4.0] - 2026-07-28
+
+### Added
+- **macOS system-wide hotkey reader** (`macos-hotkey/`) — a serverless alternative to the extension/menu-bar app. Press `⌥⌘S` to read the current selection aloud in **any** app, including Electron apps (VS Code, Slack, Discord) that don't expose the native Services menu. Uses a warm local Unix-socket daemon (`kokoro-daemon.py`) driven by a Karabiner hotkey that injects a real `⌘C`.
+- Warm-at-login launchd agent so the first read isn't a cold start; daemon auto-shuts after 30 min idle to free RAM.
+- `macos-hotkey/README.md` documents the macOS 15 Sequoia gotchas that make this hard: silent `1002` keystroke blocking, Electron Services limitations, and the non-UTF-8 launch-environment bug that mangles smart punctuation.
+
 ## [1.3.0] - 2026-03-16
 
 ### Added
