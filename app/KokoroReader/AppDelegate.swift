@@ -30,6 +30,30 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
         )
         setupHotkeys()
         hotkeyService.start()
+        setupToolbarAutoShow()
+    }
+
+    private var toolbarHideWork: DispatchWorkItem?
+
+    /// Pop the floating toolbar up while reading, drop it when playback ends.
+    /// The hide is delayed slightly so a streaming gap between chunks doesn't
+    /// flicker the bar.
+    private func setupToolbarAutoShow() {
+        player.onPlaybackStarted = { [weak self] in
+            self?.toolbarHideWork?.cancel()
+            self?.toolbarHideWork = nil
+            self?.floatingWindow.show()
+        }
+        player.onPlaybackEnded = { [weak self] in
+            guard let self else { return }
+            toolbarHideWork?.cancel()
+            let work = DispatchWorkItem { [weak self] in
+                guard let self, self.player.state == .idle else { return }
+                self.floatingWindow.hide()
+            }
+            toolbarHideWork = work
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: work)
+        }
     }
 
     func applicationWillTerminate(_ notification: Notification) {
@@ -82,6 +106,7 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
     private func synthesizeAndPlay(_ text: String) {
         synthesisTask?.cancel()
         player.stop()
+        player.synthesisSpeed = SettingsService.shared.speed
 
         synthesisTask = Task { @MainActor in
             do {

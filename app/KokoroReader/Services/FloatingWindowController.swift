@@ -42,10 +42,11 @@ final class FloatingWindowController {
         )
 
         let hostingView = NSHostingView(rootView: toolbarView)
-        hostingView.frame = NSRect(x: 0, y: 0, width: 560, height: 44)
+        let size = hostingView.fittingSize
+        hostingView.frame = NSRect(origin: .zero, size: size)
 
         let panel = NSPanel(
-            contentRect: NSRect(x: 0, y: 0, width: 560, height: 44),
+            contentRect: NSRect(origin: .zero, size: size),
             styleMask: [.nonactivatingPanel, .fullSizeContentView, .borderless],
             backing: .buffered,
             defer: false
@@ -65,7 +66,7 @@ final class FloatingWindowController {
         // Position at bottom center of main screen
         if let screen = NSScreen.main {
             let screenFrame = screen.visibleFrame
-            let x = screenFrame.midX - 280
+            let x = screenFrame.midX - size.width / 2
             let y = screenFrame.minY + 20
             panel.setFrameOrigin(NSPoint(x: x, y: y))
         }
