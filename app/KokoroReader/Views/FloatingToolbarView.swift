@@ -6,20 +6,11 @@ struct FloatingToolbarView: View {
     let onClose: () -> Void
 
     @State private var showSettings = false
+    @State private var showSpeed = false
     @State private var availableVoices: [String] = []
 
     var body: some View {
         HStack(spacing: 0) {
-            // Logo
-            Text("KOKORO")
-                .font(.system(size: 10, weight: .bold))
-                .foregroundStyle(KokoroTheme.accent)
-                .tracking(0.5)
-                .padding(.leading, 12)
-                .padding(.trailing, 8)
-
-            divider
-
             // Transport controls
             HStack(spacing: 4) {
                 toolbarButton("backward.fill") { player.skipBackward() }
@@ -95,23 +86,49 @@ struct FloatingToolbarView: View {
             .frame(width: 90)
             .scaleEffect(0.85)
 
-            // Speed
-            HStack(spacing: 2) {
-                Text("\(settings.speed, specifier: "%.1f")x")
-                    .font(.system(size: 10, design: .monospaced))
-                    .foregroundStyle(KokoroTheme.textSecondary)
-                    .frame(width: 28)
-
-                VStack(spacing: 0) {
-                    stepButton("chevron.up") {
-                        settings.speed = min(2.0, settings.speed + 0.1)
-                    }
-                    stepButton("chevron.down") {
-                        settings.speed = max(0.5, settings.speed - 0.1)
-                    }
+            // Speed — dropdown with a slider, applies to live playback
+            Button { showSpeed.toggle() } label: {
+                HStack(spacing: 3) {
+                    Text("\(settings.speed, specifier: "%.1f")x")
+                        .font(.system(size: 10, design: .monospaced))
+                        .foregroundStyle(KokoroTheme.textSecondary)
+                    Image(systemName: "chevron.down")
+                        .font(.system(size: 6, weight: .bold))
+                        .foregroundStyle(KokoroTheme.textMuted)
                 }
+                .frame(width: 40)
             }
+            .buttonStyle(.plain)
             .padding(.horizontal, 4)
+            .popover(isPresented: $showSpeed, arrowEdge: .top) {
+                VStack(spacing: 8) {
+                    Text("\(settings.speed, specifier: "%.1f")x")
+                        .font(.system(size: 12, weight: .semibold, design: .monospaced))
+                        .foregroundStyle(KokoroTheme.textPrimary)
+
+                    Slider(
+                        value: Binding(
+                            get: { settings.speed },
+                            set: {
+                                settings.speed = ($0 * 10).rounded() / 10
+                                player.refreshRate()
+                            }
+                        ),
+                        in: 0.5...2.0
+                    )
+                    .frame(width: 150)
+
+                    HStack {
+                        Text("0.5x")
+                        Spacer()
+                        Text("2.0x")
+                    }
+                    .font(.system(size: 9, design: .monospaced))
+                    .foregroundStyle(KokoroTheme.textMuted)
+                    .frame(width: 150)
+                }
+                .padding(12)
+            }
 
             divider
 
@@ -168,16 +185,6 @@ struct FloatingToolbarView: View {
                 .frame(width: isPrimary ? 28 : 24, height: isPrimary ? 28 : 24)
                 .background(isPrimary ? KokoroTheme.accent.opacity(0.15) : .clear)
                 .clipShape(RoundedRectangle(cornerRadius: 6))
-        }
-        .buttonStyle(.plain)
-    }
-
-    private func stepButton(_ symbol: String, action: @escaping () -> Void) -> some View {
-        Button(action: action) {
-            Image(systemName: symbol)
-                .font(.system(size: 6, weight: .bold))
-                .foregroundStyle(KokoroTheme.textMuted)
-                .frame(width: 14, height: 10)
         }
         .buttonStyle(.plain)
     }

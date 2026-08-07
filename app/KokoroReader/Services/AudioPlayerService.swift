@@ -25,6 +25,15 @@ final class AudioPlayerService: NSObject {
     /// and their remaining chunks are rejected.
     private(set) var generation = 0
 
+    /// Fired on playback lifecycle transitions — lets the app auto-show/hide
+    /// the floating toolbar without the player knowing about windows.
+    var onPlaybackStarted: (() -> Void)?
+    var onPlaybackEnded: (() -> Void)?
+
+    /// The speed the current audio was synthesized at. Live speed changes are
+    /// applied as an AVAudioPlayer rate relative to this.
+    var synthesisSpeed: Double = 1.0
+
     override private init() {
         super.init()
     }
@@ -35,6 +44,7 @@ final class AudioPlayerService: NSObject {
         queueIndex = 0
         textPreview = String(preview.prefix(100))
         playCurrentSegment()
+        onPlaybackStarted?()
     }
 
     func playQueue(_ segments: [Data], preview: String = "") {
@@ -44,6 +54,7 @@ final class AudioPlayerService: NSObject {
         queueIndex = 0
         textPreview = String(preview.prefix(100))
         playCurrentSegment()
+        onPlaybackStarted?()
     }
 
     /// Append a segment to the live queue. Returns false if playback has been
@@ -56,6 +67,7 @@ final class AudioPlayerService: NSObject {
             queue = [data]
             queueIndex = 0
             playCurrentSegment()
+            onPlaybackStarted?()
         } else {
             queue.append(data)
         }
@@ -104,6 +116,15 @@ final class AudioPlayerService: NSObject {
         duration = 0
         textPreview = ""
         stopTimer()
+        onPlaybackEnded?()
+    }
+
+    /// Apply the current speed setting to in-flight audio, relative to the
+    /// speed it was synthesized at. AVAudioPlayer supports 0.5–2.0x.
+    func refreshRate() {
+        guard let player else { return }
+        let ratio = settings.speed / max(synthesisSpeed, 0.01)
+        player.rate = Float(min(2.0, max(0.5, ratio)))
     }
 
     func skipForward() {
@@ -142,12 +163,15 @@ final class AudioPlayerService: NSObject {
         do {
             player = try AVAudioPlayer(data: queue[queueIndex])
             player?.delegate = self
+            player?.enableRate = true
+            refreshRate()
             player?.play()
             state = .playing
             duration = player?.duration ?? 0
             currentTime = 0
             startTimer()
         } catch {
+            FileLog.log("player: failed to decode audio segment — \(error)")
             stop()
         }
     }
