@@ -22,6 +22,7 @@
 		A10000013 /* FloatingToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000013; };
 		A10000014 /* FloatingWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000014; };
 		A10000015 /* KokoroTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000015; };
+		A10000016 /* FileLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = A20000016; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -31,6 +32,7 @@
 		A20000004 /* AudioPlayerService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlayerService.swift; sourceTree = "<group>"; };
 		A20000005 /* HotkeyService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotkeyService.swift; sourceTree = "<group>"; };
 		A20000006 /* TextCaptureService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextCaptureService.swift; sourceTree = "<group>"; };
+		A20000016 /* FileLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileLog.swift; sourceTree = "<group>"; };
 		A20000007 /* SettingsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsService.swift; sourceTree = "<group>"; };
 		A20000008 /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
 		A20000009 /* PlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerView.swift; sourceTree = "<group>"; };
@@ -73,6 +75,7 @@
 				A20000005 /* HotkeyService.swift */,
 				A20000006 /* TextCaptureService.swift */,
 				A20000007 /* SettingsService.swift */,
+				A20000016 /* FileLog.swift */,
 			A20000014 /* FloatingWindowController.swift */,
 			);
 			path = Services;
@@ -177,6 +180,7 @@
 			A10000013,
 			A10000014,
 			A10000015,
+			A10000016,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
