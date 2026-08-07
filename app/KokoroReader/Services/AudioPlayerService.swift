@@ -20,11 +20,17 @@ final class AudioPlayerService: NSObject {
     private var timer: Timer?
     private let settings = SettingsService.shared
 
+    /// Bumped on every user stop or new playback. Producers streaming chunks in
+    /// pass the generation they started with; a mismatch means the user moved on
+    /// and their remaining chunks are rejected.
+    private(set) var generation = 0
+
     override private init() {
         super.init()
     }
 
     func playData(_ data: Data, preview: String = "") {
+        generation += 1
         queue = [data]
         queueIndex = 0
         textPreview = String(preview.prefix(100))
@@ -33,10 +39,27 @@ final class AudioPlayerService: NSObject {
 
     func playQueue(_ segments: [Data], preview: String = "") {
         guard !segments.isEmpty else { return }
+        generation += 1
         queue = segments
         queueIndex = 0
         textPreview = String(preview.prefix(100))
         playCurrentSegment()
+    }
+
+    /// Append a segment to the live queue. Returns false if playback has been
+    /// stopped/replaced since the producer started (drop remaining chunks).
+    @discardableResult
+    func appendToQueue(_ data: Data, generation producerGeneration: Int) -> Bool {
+        guard producerGeneration == generation else { return false }
+        if player == nil {
+            // Queue drained before this chunk arrived — resume playback
+            queue = [data]
+            queueIndex = 0
+            playCurrentSegment()
+        } else {
+            queue.append(data)
+        }
+        return true
     }
 
     func play() {
@@ -61,6 +84,17 @@ final class AudioPlayerService: NSObject {
     }
 
     func stop() {
+        generation += 1  // reject any in-flight streaming producers
+        reset()
+    }
+
+    /// Natural end of the queue — keeps the generation so a streaming producer
+    /// can still resume playback with its next chunk.
+    private func finish() {
+        reset()
+    }
+
+    private func reset() {
         player?.stop()
         player = nil
         queue = []
@@ -101,7 +135,7 @@ final class AudioPlayerService: NSObject {
 
     private func playCurrentSegment() {
         guard queueIndex < queue.count else {
-            stop()
+            finish()
             return
         }
 
@@ -123,7 +157,7 @@ final class AudioPlayerService: NSObject {
         if queueIndex < queue.count {
             playCurrentSegment()
         } else {
-            stop()
+            finish()
         }
     }
 

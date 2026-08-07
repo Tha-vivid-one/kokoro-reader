@@ -34,6 +34,12 @@ final class TTSService {
         return results
     }
 
+    /// Split text into chunks sized for individual synthesize() calls,
+    /// so callers can stream playback chunk-by-chunk.
+    func chunkText(_ text: String) -> [String] {
+        splitIntoParagraphs(text)
+    }
+
     func fetchVoices() async throws -> [String] {
         let url = try buildURL(path: "/api/voices")
         var request = URLRequest(url: url)
